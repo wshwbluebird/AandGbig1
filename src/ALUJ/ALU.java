@@ -206,8 +206,18 @@ public class ALU {
 	 * @return operand的真值。若为负数；则第一位为“-”；若为正数或 0，则无符号位
 	 */
 	public String integerTrueValue (String operand) {
-		// TODO YOUR CODE HERE.
-		return null;
+		int ans = 0;
+		for (int i = 0; i < operand.length(); i++) {
+			//System.out.println(operand.charAt(i));
+			if(operand.charAt(i)=='1'){
+			   if(i==0){
+				ans = (int) (ans-Math.pow(2, operand.length()-1-i));
+			    }
+			   else ans = (int) (ans+Math.pow(2, operand.length()-1-i));
+		    }
+		}
+		
+		return String.valueOf(ans);
 	}
 	
 	/**
