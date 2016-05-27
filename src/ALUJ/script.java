@@ -5,7 +5,8 @@ package ALUJ;
 public class script {
     public static void main(String[] args) {
     	ALU alu = new ALU();
-    	System.out.println(alu.floatRepresentation("0.00000001", 5, 11));
+    System.out.println(alu.floatRepresentation("0.00001", 5, 11));
+    	System.out.println(alu.floatRepresentation("11.125",8,11));
     	//System.out.println(alu.integerTrueValue("111110"));
 //    	String test="10101011";
 //    	if(test.equals(alu.integerRepresentation(alu.integerTrueValue(test), test.length()))){
@@ -13,7 +14,11 @@ public class script {
 //    		System.out.println(alu.integerTrueValue(test));
 //    		
 //    	}
+    	//System.out.println(alu.floatTrueValue("01111000000000", 5, 8));
     	
+//    	0 01101110 01001111100010110101100
+//    	0 01101110 01001111100010110101100
+//    	0 0110111 10100111110001011010110
     	
     	
 	}
