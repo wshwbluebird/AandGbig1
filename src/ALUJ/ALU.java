@@ -66,7 +66,7 @@ public class ALU {
 	 * @return number的二进制表示，长度为 1+eLength+sLength。从左向右，依次为符号、指数（移码表示）、尾数（首位隐藏）
 	 */
 	public String floatRepresentation (String number, int eLength, int sLength) {
-		 String first = "1";
+		 String first = "0";
 		 String sig = "";
 		 String exp = "";
 		 int nsig;
@@ -79,7 +79,7 @@ public class ALU {
 		 System.out.println("min:  "+minexp);
 		 
 		    if('-'==number.charAt(0)){
-		    	first = "0";
+		    	first = "1";
 		    	number = number.substring(1);
 		    }
 		   number = number.replace('.', ';');
