@@ -66,7 +66,7 @@ public class ALU {
 	 * @return number的二进制表示，长度为 1+eLength+sLength。从左向右，依次为符号、指数（移码表示）、尾数（首位隐藏）
 	 */
 	public String floatRepresentation (String number, int eLength, int sLength) {
-		 String first = "1";
+		 String first = "0";
 		 String sig = "";
 		 String exp = "";
 		 int nsig;
@@ -79,7 +79,7 @@ public class ALU {
 		 System.out.println("min:  "+minexp);
 		 
 		    if('-'==number.charAt(0)){
-		    	first = "0";
+		    	first = "1";
 		    	number = number.substring(1);
 		    }
 		   number = number.replace('.', ';');
@@ -229,7 +229,23 @@ public class ALU {
 	 * @return operand的真值。若为负数；则第一位为“-”；若为正数或 0，则无符号位。正负无穷分别表示为“+Inf”和“-Inf”， NaN表示为“NaN”
 	 */
 	public String floatTrueValue (String operand, int eLength, int sLength) {
-		// TODO YOUR CODE HERE.
+		int offexp = (int) (Math.pow(2, eLength-1)-1);
+		String first = operand.substring(0,1);
+		String sexp = operand.substring(1,1+eLength);
+		String ssig = operand.substring(2+eLength);
+		
+		int iexp = 0;
+		for (int i = 0; i < sexp.length(); i++) {
+			if(operand.charAt(i)=='1'){
+			   if(i==0){
+				   iexp = (int) (iexp-Math.pow(2, operand.length()-1-i));
+			    }
+			   else iexp = (int) (iexp+Math.pow(2, operand.length()-1-i));
+		    }
+		}
+		iexp = iexp - offexp;
+		
+		
 		return null;
 	}
 	
