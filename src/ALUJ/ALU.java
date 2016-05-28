@@ -67,7 +67,7 @@ public class ALU {
 	 */
 	public String floatRepresentation (String number, int eLength, int sLength) {
 		 String first = "0";
-		 String sig = "";
+		 String sig = "";//表示 规格化位的字符串
 		 String exp = "";
 		 int nsig;
 		 int nexp;
@@ -94,7 +94,7 @@ public class ALU {
 //		  }
 			//检测是否超出   
 		   
-		 if(nint!=0){
+		 if(nint!=0){//如果整数部分不是0
 			   String sint="";
 			   while(nint!=0){
 				   if(nint%2==0)  sint = "0"+sint;
@@ -141,10 +141,10 @@ public class ALU {
 			   sig = sint + sfloat;
 			   return first+" "+exp+" "+sig;
 		   }
-		 else{
+		 else{//如果整数部分是0
 			  double small =  nfloat * 2;
 			  nexp = -1;
-			 while(nexp>minexp){
+			 while(nexp>=minexp){
 				 if(small>=1){
 					 small = small-1;
 					 nexp = nexp + offexp;
@@ -155,6 +155,7 @@ public class ALU {
 					   }
 					   while(exp.length()<eLength)
 						   exp = "0"+exp;
+					   //确定了指数
 					   while(sig.length()<sLength){
 						   small = small*2;
 						   if(small>=1){
@@ -172,7 +173,7 @@ public class ALU {
 			 }
 			 nexp = 0;
 			 while(sig.length()<sLength){
-				   small = small*2;
+				  // small = small*2;
 				   if(small>=1){
 					   small = small -1;
 					   sig += "1";
