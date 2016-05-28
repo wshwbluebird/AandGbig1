@@ -239,10 +239,14 @@ public class ALU {
 	public String floatTrueValue (String operand, int eLength, int sLength) {
 		int offexp = (int) (Math.pow(2, eLength-1)-1);
 		String first = operand.substring(0,1);
+		String minus = "";
+		if("1".equals(first)) minus = "-";
 		String sexp = operand.substring(1,1+eLength);
 		System.out.println("sexp:   "+sexp);
 		String ssig = operand.substring(1+eLength);
 		System.out.println("ssig:   "+ssig);
+		
+		
 		int iexp = 0;
 		for (int i = 0; i < sexp.length(); i++) {
 			if(sexp.charAt(i)=='1'){
@@ -251,13 +255,30 @@ public class ALU {
 		}
 		System.out.println("offest:  "+offexp);
 		System.out.println("iexp:   "+iexp);
-		if(iexp ==0){
-			int exp = -offexp+1;
+		
+		if(iexp==Math.pow(2, eLength)-1){
+		    long temp =Integer.parseInt(ssig);
+		    if(temp==0){
+		      if("".equals(minus))	minus = "+";
+		       return minus+"INF";
+		    }else{
+		    	return "NaN";
+		    }
+		    
 		}
-		iexp = iexp - offexp;
-		String sint;
-		String soat;
 		double ans = 0;
+		if(iexp ==0){//如果指数等于0
+			int exp = -offexp;
+			for (int i = 0; i < ssig.length(); i++) {
+				if(ssig.charAt(i)=='1'){
+				    ans = (double) (ans+Math.pow(2, exp-i));
+			    }
+			}
+			return minus+String.valueOf(ans);
+		}
+		iexp = iexp - offexp;// 如果指数不等于0
+		String sint;
+		String soat;		
 		System.out.println(iexp);
 		if(iexp>=0&&iexp<sLength){
 			sint = "1"+ssig.substring(0, iexp);
@@ -272,7 +293,7 @@ public class ALU {
 				    ans = (double) (ans+Math.pow(2, -i-1));
 			    }
 			}
-			return String.valueOf(ans);
+			return minus+String.valueOf(ans);
 		}else if(iexp<0){
 			soat = "1"+ssig;
 			int com = -1-iexp;
@@ -286,7 +307,7 @@ public class ALU {
 				    ans = (double) (ans+Math.pow(2, -i-1));
 			    }
 			}
-			return String.valueOf(ans);
+			return minus+String.valueOf(ans);
 		}else if(iexp>=sLength){
 			sint = "1" + ssig;
 			System.out.println("sint:  "+sint);
@@ -300,7 +321,7 @@ public class ALU {
 				ans = ans *2;
 				com--;
 			}
-			return String.valueOf(ans);
+			return minus+String.valueOf(ans);
 		}
 		
 		
