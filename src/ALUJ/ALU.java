@@ -341,8 +341,8 @@ public class ALU {
 	 * @return operand按位取反的结果
 	 */
 	public String negation (String operand) {
-		System.out.println("negation was called");
-		System.out.println(operand);
+		//System.out.println("negation was called");
+		//System.out.println(operand);
 		String ans = "";
 		for (int i = 0; i < operand.length(); i++) {
 			char cur = operand.charAt(i)=='1'? '0':'1';
@@ -471,6 +471,47 @@ public class ALU {
 	}
 	
 	/**
+	 * 加法器，要求调用{@link #claAdder(String, String, char)}方法实现。<br/>
+	 * 例：adder("0100", "0011", ‘0’, 8)
+	 * @param operand1 二进制补码表示的被加数
+	 * @param operand2 二进制补码表示的加数
+	 * @param c 最低位进位
+	 * @param length 存放操作数的寄存器的长度，为4的倍数。length不小于操作数的长度，当某个操作数的长度小于length时，需要在高位补符号位
+	 * @return 长度为length+1的字符串表示的计算结果，其中第1位指示是否溢出（溢出为1，否则为0），后length位是相加结果
+	 */
+	public String adder (String operand1, String operand2, char c, int length) {
+	    //补全符号位
+		char sign1 = operand1.charAt(0);
+		while(operand1.length()!=length)   operand1 = sign1 + operand1;
+		char sign2 = operand2.charAt(0);
+		while(operand2.length()!=length)   operand2 = sign2 + operand2;
+		//四位一截
+		int groupsnum = length/4;
+		String[] group = new String[groupsnum];
+		char[] groupCarry = new char[groupsnum+1];
+		groupCarry[0] = c;
+		
+		//调用cla进行迭代运算
+	    String ans = "";
+		for (int i = 0; i < groupsnum; i++) {
+			String get = claAdder(operand1.substring(operand1.length()-4,operand1.length()), 
+					              operand2.substring(operand2.length()-4,operand2.length()),
+					              groupCarry[i]);
+			groupCarry[i+1] = get.charAt(0);
+			group[i] = get.substring(1);
+			ans = group[i] + ans;
+			operand1 = operand1.substring(0,operand1.length()-4);
+			operand2 = operand2.substring(0,operand2.length()-4);
+		}
+		//判断溢出的可能性
+		boolean overflow = And(Not(Xor(sign1,sign2)),Xor(ans.charAt(0),sign1))=='1'?true:false;
+				
+		if(overflow) return "1" + ans;
+		        else return "0" + ans;
+		
+				
+	}
+	/**
 	 * 整数加法，要求调用{@link #claAdder(String, String, char) claAdder}方法实现。<br/>
 	 * 例：integerAddition("0100", "0011", 8)
 	 * @param operand1 二进制补码表示的被加数
@@ -479,8 +520,8 @@ public class ALU {
 	 * @return 长度为length+1的字符串表示的计算结果，其中第1位指示是否溢出（溢出为1，否则为0），后length位是相加结果
 	 */
 	public String integerAddition (String operand1, String operand2, int length) {
-		// TODO YOUR CODE HERE.
-		return null;
+		
+		return adder(operand1, operand2, '0', length);
 	}
 	
 	/**
@@ -492,8 +533,9 @@ public class ALU {
 	 * @return 长度为length+1的字符串表示的计算结果，其中第1位指示是否溢出（溢出为1，否则为0），后length位是相减结果
 	 */
 	public String integerSubtraction (String operand1, String operand2, int length) {
-		// TODO YOUR CODE HERE.
-		return null;
+		operand2 = negation(operand2);
+		//System.out.println(operand2);
+		return adder(operand1, operand2, '1', length);
 	}
 	
 	/**
@@ -616,6 +658,9 @@ public class ALU {
 			else ans = '1';
 		}
 		return ans;
+	}
+	private char Not(char a){
+		return a=='1'?'0':'1';
 	}
 //*****************************************************************************************************************	
 	private char[] getCarry(String operand1, String operand2, char c){
