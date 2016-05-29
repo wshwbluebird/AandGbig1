@@ -520,7 +520,7 @@ public class ALU {
 	 * @return 长度为length+1的字符串表示的计算结果，其中第1位指示是否溢出（溢出为1，否则为0），后length位是相加结果
 	 */
 	public String integerAddition (String operand1, String operand2, int length) {
-		
+		 
 		return adder(operand1, operand2, '0', length);
 	}
 	
@@ -621,7 +621,7 @@ public class ALU {
 		
 		return quotient+remainder;
 	}
-	
+	 
 	/**
 	 * 带符号整数加法，要求调用{@link #integerAddition(String, String, int) integerAddition}、{@link #integerSubtraction(String, String, int) integerSubtraction}等方法实现。
 	 * 但符号的确定、结果是否修正等需要按照相关算法进行，不能直接转为补码表示后运算再转回来<br/>
