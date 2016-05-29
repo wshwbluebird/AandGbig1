@@ -632,7 +632,9 @@ public class ALU {
 	 * @return 长度为length+2的字符串表示的计算结果，其中第1位指示是否溢出（溢出为1，否则为0），第2位为符号位，后length位是相加结果
 	 */
 	public String signedAddition (String operand1, String operand2, int length) {
-		// TODO YOUR CODE HERE.
+		// 
+		//
+		//
 		
 		return null;
 	}
