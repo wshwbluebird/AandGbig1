@@ -329,6 +329,11 @@ public class ALU {
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
+	private String  DoubleTostring(double d){
+		//待定的方法， 不知道无限小数精确到多少位
+		return null;
+	}
 	/**
 	 * 按位取反操作。<br/>
 	 * 例：negation("00001001")
@@ -537,5 +542,8 @@ public class ALU {
 		// TODO YOUR CODE HERE.
 		return null;
 	}
+	
+	
+	
 	
 }
