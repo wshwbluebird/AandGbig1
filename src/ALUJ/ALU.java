@@ -459,8 +459,15 @@ public class ALU {
 	 * @return operand加1的结果，长度为operand的长度加1，其中第1位指示是否溢出（溢出为1，否则为0），其余位为相加结果
 	 */
 	public String oneAdder (String operand) {
-		// TODO YOUR CODE HERE.
-		return null;
+		char c = '1';
+		char[] ans = operand.toCharArray(); 
+		for (int i = operand.length()-1;i>=0; i--) {
+			//System.out.println(c+" "+ans[i]);
+			char p = And(c,ans[i]);
+			ans[i] = Xor(c,ans[i]);
+			c = p;
+		}
+		return c+String.valueOf(ans);
 	}
 	
 	/**
