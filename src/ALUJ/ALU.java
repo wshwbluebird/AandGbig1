@@ -424,8 +424,11 @@ public class ALU {
 	 * @return 相加的结果，用长度为2的字符串表示，第1位表示进位，第2位表示和
 	 */
 	public String fullAdder (char x, char y, char c) {
-		// TODO YOUR CODE HERE.
-		return null;
+	    char carry = Or(And(x,y),And(y,c),And(x,c));
+	    char sum = Xor(x,y,c);
+	    String ans = "";
+	   ans = ans + carry + sum;
+		return ans;
 	}
 	
 	/**
