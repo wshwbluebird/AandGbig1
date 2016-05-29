@@ -576,8 +576,30 @@ public class ALU {
 		// TODO YOUR CODE HERE.
 		return null;
 	}
-	
-	
+//*****************************************************************************************************************	
+	@SuppressWarnings("unused")
+	private  char And(char...a){
+		for (int i = 0; i < a.length; i++) {
+			if(a[i]=='0')  return '0';			
+		}
+		return '1';	
+	}
+	@SuppressWarnings("unused")
+	private  char Or(char...a){
+		for (int i = 0; i < a.length; i++) {
+			if(a[i]=='1')  return '1';			
+		}
+		return '0';	
+	}
+	@SuppressWarnings("unused")
+	private  char Xor(char...a){
+		char ans = a[0];
+		for (int i = 1; i < a.length; i++) {
+			if(ans == a[i]) ans='0';
+			else ans = '1';
+		}
+		return ans;
+	}
 	
 	
 }
