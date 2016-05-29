@@ -341,8 +341,15 @@ public class ALU {
 	 * @return operand按位取反的结果
 	 */
 	public String negation (String operand) {
-		// TODO YOUR CODE HERE.
-		return null;
+		System.out.println("negation was called");
+		System.out.println(operand);
+		String ans = "";
+		for (int i = 0; i < operand.length(); i++) {
+			char cur = operand.charAt(i)=='1'? '0':'1';
+			ans = ans + cur;
+		}
+		return ans;
+		
 	}
 	
 	/**
