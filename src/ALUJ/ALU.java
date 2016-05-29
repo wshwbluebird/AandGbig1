@@ -360,8 +360,14 @@ public class ALU {
 	 * @return operand左移n位的结果
 	 */
 	public String leftShift (String operand, int n) {
-		// TODO YOUR CODE HERE.
-		return null;
+		char[]  ans = operand.toCharArray();
+		for (int j = 0; j < n; j++) {
+		    for (int i = 1; i < operand.length(); i++) {
+			    ans[i-1]  = ans[i];
+		       }
+		    ans[operand.length()-1] = '0';
+		}
+		return String.valueOf(ans);
 	}
 	
 	/**
