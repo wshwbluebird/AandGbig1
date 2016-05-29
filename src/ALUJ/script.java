@@ -19,6 +19,11 @@ public class script {
 //    	0 01101110 01001111100010110101100
 //    	0 01101110 01001111100010110101100
 //    	0 0110111 10100111110001011010110
+    	//System.out.println(alu.negation("01010111011"));
+    	//System.out.println(alu.leftShift("111100", 4));
+    	System.out.println(alu.logRightShift("11", 2));
+    	System.out.println(alu.ariRightShift("10101", 1));
+    	
     	
     	
 	}

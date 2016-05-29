@@ -360,8 +360,16 @@ public class ALU {
 	 * @return operand左移n位的结果
 	 */
 	public String leftShift (String operand, int n) {
-		// TODO YOUR CODE HERE.
-		return null;
+		if(operand.length()==1)
+			return "0";
+		char[]  ans = operand.toCharArray();
+		for (int j = 0; j < n; j++) {
+		    for (int i = 1; i < operand.length(); i++) {
+			    ans[i-1]  = ans[i];
+		       }
+		    ans[operand.length()-1] = '0';
+		}
+		return String.valueOf(ans);
 	}
 	
 	/**
@@ -372,8 +380,17 @@ public class ALU {
 	 * @return operand逻辑右移n位的结果
 	 */
 	public String logRightShift (String operand, int n) {
-		// TODO YOUR CODE HERE.
-		return null;
+		if(operand.length()==1)
+			return "0";
+		System.out.println(operand);
+		char[]  ans = operand.toCharArray();
+		for (int i = 0; i < n; i++) {
+			for (int j = ans.length-1; j >0; j--) {
+				ans[j] = ans[j-1];
+			}
+			ans[0] = '0';
+		}
+		return String.valueOf(ans);
 	}
 	
 	/**
@@ -384,8 +401,18 @@ public class ALU {
 	 * @return operand算术右移n位的结果
 	 */
 	public String ariRightShift (String operand, int n) {
-		// TODO YOUR CODE HERE.
-		return null;
+		if(operand.length()==1)
+			return operand;
+		System.out.println(operand);
+		char[]  ans = operand.toCharArray();
+		for (int i = 0; i < n; i++) {
+			for (int j = ans.length-1; j >0; j--) {
+				ans[j] = ans[j-1];
+			}
+			ans[0] = ans[1];
+		}
+		return String.valueOf(ans);
+	
 	}
 	
 	/**
