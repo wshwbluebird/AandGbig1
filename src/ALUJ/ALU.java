@@ -565,8 +565,8 @@ public class ALU {
 		while(operand2.length()!=length) operand2 = operand2.charAt(0) + operand2;//被除数
 		String register = operand1;
 		while(register.length()!=2*length) register = register.charAt(0) + register;
-		System.out.println("最开始"+register);
-		System.out.println("divisor:  "+operand2);
+		//System.out.println("最开始"+register);
+		//System.out.println("divisor:  "+operand2);
 		//第一次加	
 		if(register.charAt(0)==operand2.charAt(0)){
 			String temp = adder(register.substring(0, length), 
@@ -575,13 +575,13 @@ public class ALU {
 		}else{
 			String temp = adder(register.substring(0, length), 
 		                        operand2, '0', length).substring(1);
-			System.out.println(temp);
+			//System.out.println(temp);
             register = temp + register.substring(length);
             //System.out.println("rr");
 		}
 			if(register.charAt(0)==operand2.charAt(0)) register = register + '1';
 			else register = register + '0';
-			System.out.println("最第一次加完后：  "+register);	
+			//System.out.println("最第一次加完后：  "+register);	
 		
 		//循环
 		for (int i = 0; i < length; i++) {
@@ -590,7 +590,7 @@ public class ALU {
 			System.out.println("移动后"+register);
 		    //判断 被除数 除数，同减异加
 			if(register.charAt(0)==operand2.charAt(0)){
-				System.out.println("-");
+				//System.out.println("-");
 				String temp = adder(register.substring(0, length), 
 						            negation(operand2), '1', length).substring(1);
 				register = temp + register.substring(length);
@@ -614,9 +614,9 @@ public class ALU {
 		     else
 			        remainder = adder(remainder, negation(operand2), '1', length).substring(1);
 		}
-		System.out.println("remainder: "+remainder);
+		//System.out.println("remainder: "+remainder);
 		quotient = leftShift(quotient, 1).substring(0, length);
-		System.out.println("quotient: "+quotient);
+		//System.out.println("quotient: "+quotient);
 		if(operand1.charAt(0)!=operand2.charAt(0))  quotient = oneAdder(quotient).substring(1);
 		
 		return quotient+remainder;
