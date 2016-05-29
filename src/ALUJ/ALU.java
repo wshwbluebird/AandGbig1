@@ -440,8 +440,14 @@ public class ALU {
 	 * @return 长度为5的字符串表示的计算结果，其中第1位是最高位进位，后4位是相加结果，其中进位不可以由循环获得
 	 */
 	public String claAdder (String operand1, String operand2, char c) {
-		// TODO YOUR CODE HERE.
-		return null;
+		char[] ans = new char[operand1.length()];
+		char[] carry = getCarry(operand1, operand2, c);//传过来的carry 是从右往左的，运算的时候
+		                                               //要把它转换成从左往右 并从第3位开始（从0开始数）
+		for (int i = 0; i < 4; i++) {
+			//System.out.println(operand1.charAt(i)+" "+operand2.charAt(i)+" "+carry[3-i]);
+			ans[i] = Xor(operand1.charAt(i),operand2.charAt(i),carry[3-i]); 
+		}
+		return String.valueOf(ans);
 	}
 	
 	/**
@@ -580,21 +586,21 @@ public class ALU {
 		return null;
 	}
 //*****************************************************************************************************************	
-	@SuppressWarnings("unused")
+	
 	private  char And(char...a){
 		for (int i = 0; i < a.length; i++) {
 			if(a[i]=='0')  return '0';			
 		}
 		return '1';	
 	}
-	@SuppressWarnings("unused")
+	
 	private  char Or(char...a){
 		for (int i = 0; i < a.length; i++) {
 			if(a[i]=='1')  return '1';			
 		}
 		return '0';	
 	}
-	@SuppressWarnings("unused")
+	
 	private  char Xor(char...a){
 		char ans = a[0];
 		for (int i = 1; i < a.length; i++) {
@@ -602,6 +608,26 @@ public class ALU {
 			else ans = '1';
 		}
 		return ans;
+	}
+//*****************************************************************************************************************	
+	private char[] getCarry(String operand1, String operand2, char c){
+		char[] p = new char[5];
+		char[] g = new char[5];
+		char[] carry = new char[5];
+		carry[0] = c;
+		for (int i = 1; i <= 4; i++) {
+			p[i] = Or(operand1.charAt(4-i),operand2.charAt(4-i));
+			g[i] = And(operand1.charAt(4-i),operand2.charAt(4-i));
+		}
+		carry[1] =  Or(g[1],And(p[1],c));
+		carry[2] =  Or(g[2],And(p[2],g[1]),And(p[2],p[1],c));
+		carry[3] =  Or(g[3],And(p[3],g[2]),And(p[3],p[2],g[1]),And(p[3],p[2],p[1],c));
+		carry[4] =  Or(g[4],And(p[4],g[3]),And(p[4],p[3],g[2]),And(p[4],p[3],p[2],g[1]),And(p[4],p[3],p[2],p[1],c));
+		
+//		for (int i = 0; i < carry.length; i++) {
+//			System.out.println(carry[i]);
+//		}
+		return carry; //返回的carry 是从右往左数的
 	}
 	
 	
