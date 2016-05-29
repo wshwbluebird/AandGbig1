@@ -29,8 +29,9 @@ public class script {
     	//System.out.println(alu.claAdder("0111", "0110", '0'));
     	//System.out.println(alu.oneAdder("011"));
     	//System.out.println(alu.adder("0111", "0111", '1', 4));
-    	System.out.println(alu.integerAddition("0111", "0111", 4));
-    	System.out.println(alu.integerSubtraction("1111", "1000", 8));
+    	//System.out.println(alu.integerAddition("0111", "0111", 4));
+    	//System.out.println(alu.integerSubtraction("1111", "1000", 8));
+    	System.out.println(alu.integerDivision("0111", "0011", 8));
     	 
     	
     	

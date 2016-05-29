@@ -560,8 +560,66 @@ public class ALU {
 	 * @return 长度为2*length+1的字符串表示的相除结果，其中第1位指示是否溢出（溢出为1，否则为0），其后length位为商，最后length位为余数
 	 */
 	public String integerDivision (String operand1, String operand2, int length) {
-		// TODO YOUR CODE HERE.
-		return null;
+		//分组 补位
+		while(operand1.length()!=length) operand1 = operand1.charAt(0) + operand1;//除数
+		while(operand2.length()!=length) operand2 = operand2.charAt(0) + operand2;//被除数
+		String register = operand1;
+		while(register.length()!=2*length) register = register.charAt(0) + register;
+		System.out.println("最开始"+register);
+		System.out.println("divisor:  "+operand2);
+		//第一次加	
+		if(register.charAt(0)==operand2.charAt(0)){
+			String temp = adder(register.substring(0, length), 
+					            negation(operand2), '1', length).substring(1);
+			register = temp + register.substring(length);
+		}else{
+			String temp = adder(register.substring(0, length), 
+		                        operand2, '0', length).substring(1);
+			System.out.println(temp);
+            register = temp + register.substring(length);
+            //System.out.println("rr");
+		}
+			if(register.charAt(0)==operand2.charAt(0)) register = register + '1';
+			else register = register + '0';
+			System.out.println("最第一次加完后：  "+register);	
+		
+		//循环
+		for (int i = 0; i < length; i++) {
+			//左移
+			register = leftShift(register, 1);
+			System.out.println("移动后"+register);
+		    //判断 被除数 除数，同减异加
+			if(register.charAt(0)==operand2.charAt(0)){
+				System.out.println("-");
+				String temp = adder(register.substring(0, length), 
+						            negation(operand2), '1', length).substring(1);
+				register = temp + register.substring(length);
+			}else{
+				System.out.println("+");
+				String temp = adder(register.substring(0, length), 
+                        operand2, '0', length).substring(1);
+                register = temp + register.substring(length);
+                
+            }
+		    //判断加后 余数 和被除数 同1 不同0
+			if(register.charAt(0)==operand2.charAt(0)) register = register.substring(0,length *2) +"1";
+			System.out.println("加完后"+register);
+		}	   
+		//善后
+		String remainder = register.substring(0,length);
+		String quotient = register.substring(length);
+		if(operand1.charAt(0)!=remainder.charAt(0)){
+		     if(operand1.charAt(0)==operand2.charAt(0))  
+			        remainder = adder(remainder, operand2, '0', length).substring(1);
+		     else
+			        remainder = adder(remainder, negation(operand2), '1', length).substring(1);
+		}
+		System.out.println("remainder: "+remainder);
+		quotient = leftShift(quotient, 1).substring(0, length);
+		System.out.println("quotient: "+quotient);
+		if(operand1.charAt(0)!=operand2.charAt(0))  quotient = oneAdder(quotient).substring(1);
+		
+		return quotient+remainder;
 	}
 	
 	/**
