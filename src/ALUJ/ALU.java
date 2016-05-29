@@ -445,9 +445,10 @@ public class ALU {
 		                                               //要把它转换成从左往右 并从第3位开始（从0开始数）
 		for (int i = 0; i < 4; i++) {
 			//System.out.println(operand1.charAt(i)+" "+operand2.charAt(i)+" "+carry[3-i]);
-			ans[i] = Xor(operand1.charAt(i),operand2.charAt(i),carry[3-i]); 
+			ans[i] = fullAdder(operand1.charAt(i),operand2.charAt(i),carry[3-i]).charAt(1);
+			//调用 fulladder
 		}
-		return String.valueOf(ans);
+		return carry[4]+String.valueOf(ans);
 	}
 	
 	/**

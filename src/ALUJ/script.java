@@ -26,7 +26,7 @@ public class script {
     	//System.out.println(alu.Xor('0','0','1'));
     	//System.out.println(alu.Or('0','1','0'));
     	//System.out.println(alu.fullAdder('0', '0', '0'));
-    	System.out.println(alu.claAdder("1001", "0001", '1'));
+    	System.out.println(alu.claAdder("1001", "1001", '1'));
     	
     	
     	
