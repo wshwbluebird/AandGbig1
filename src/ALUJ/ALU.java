@@ -642,19 +642,21 @@ public class ALU {
 		operand1 = operand1.substring(1);
 		char sign2 = operand2.charAt(0);
 		operand2 = operand2.substring(1);
-		while(operand1.length()!=length) operand1 = operand1.charAt(0) + operand1;//减数
-		while(operand2.length()!=length) operand2 = operand2.charAt(0) + operand2;//被减数
+		while(operand1.length()!=length) operand1 = operand1 + "0";//减数
+		while(operand2.length()!=length) operand2 = operand2 + "0";//被减数
 		// 同号相加
 		if(sign1 == sign2){
-			ans = adder(operand1, operand2, '0', length);
+			ans = adder("0000"+operand1,"0000"+operand2, '0', length+4);			
 			anssign = sign1;
-			overflow = ans.charAt(0);
-			ans = ans.substring(1);
+			overflow = Or(ans.substring(1, 5).toCharArray());
+			ans = ans.substring(5);
+			System.out.println("dfs");
 			return overflow+(anssign+ans);
+			
 		}
 		// 异号相减
 		else {
-			ans = claAdder(operand1, negation(operand2),'0');
+			ans = claAdder(operand1, negation(operand2),'1');
 			overflow ='0';
 			if(ans.charAt(0)=='1'){
 				ans = ans.substring(1);

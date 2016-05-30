@@ -26,9 +26,9 @@ public class script {
     	//System.out.println(alu.Xor('0','0','1'));
     	//System.out.println(alu.Or('0','1','0'));
     	//System.out.println(alu.fullAdder('0', '0', '0'));
-    	System.out.println(alu.claAdder("1111", "0001", '0'));
+    	//System.out.println(alu.claAdder("1111", "0001", '0'));
     	//System.out.println(alu.oneAdder("011"));
-//    	//System.out.println(alu.adder("1111", "0001", '0', 4));
+    	System.out.println(alu.adder("1111", "0001", '0', 4));
     	//System.out.println(alu.integerAddition("0111", "0111", 4));
     	//System.out.println(alu.integerSubtraction("1111", "1000", 8));
     	//System.out.println(alu.integerDivision("00001001", "0000011", 8));
