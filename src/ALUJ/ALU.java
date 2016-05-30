@@ -548,22 +548,17 @@ public class ALU {
 	 */
 	public String integerMultiplication (String operand1, String operand2, int length) {
 		//分组
+		while(operand1.length()<length) operand1 = operand1.charAt(0) + operand1;
+		while(operand2.length()<length) operand2 = operand2.charAt(0) + operand2;
 		String opr = operand2 + '0';
-		while(opr.length()<length+1){
+		while(opr.length()<2*length+1){
 			opr = "0"+opr;
-		}
-		int stillneed = length - operand1.length()-operand2.length();
-		
-		int com = 0;
-		while(stillneed!=com){
-			operand1 = operand1.charAt(0)+ operand1;
-			com++;
 		}
 		System.out.println("opr  "+opr);
 		//循环
 		for (int i = 0; i < operand2.length(); i++) {
 			 //判断
-			int yy = boothJudgeY(opr.charAt(length),opr.charAt(length-1));//yy带表y0-y1
+			int yy = boothJudgeY(opr.charAt(2*length),opr.charAt(2*length-1));//yy带表y0-y1
 			 //加减
 			System.out.println(yy);
 			if(yy==1){
@@ -583,8 +578,14 @@ public class ALU {
 			 opr = ariRightShift(opr, 1);
 			 System.out.println(opr);
 		}
-		  
-		return opr.substring(0,length);
+		//善后
+		char[] pd = opr.substring(0,length).toCharArray();
+		char overflow;
+		if(And(pd)=='1'||Or(pd)=='0')
+			 overflow = '0';
+		else 
+			overflow = '1';
+		return overflow+opr.substring(length,2*length);
 	}
 	
 	/**
