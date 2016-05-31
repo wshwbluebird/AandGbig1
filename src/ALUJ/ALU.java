@@ -650,7 +650,7 @@ public class ALU {
 			anssign = sign1;
 			overflow = Or(ans.substring(1, 5).toCharArray());
 			ans = ans.substring(5);
-			System.out.println("dfs");
+			//System.out.println("dfs");
 			return overflow+(anssign+ans);
 			
 		}
@@ -667,9 +667,6 @@ public class ALU {
 				String temp = oneAdder(negation(ans));
 				if(temp.charAt(0)=='1') anssign ='1';
 				else  anssign = sign2;
-				System.out.println(overflow);
-				System.out.println(anssign);
-				System.out.println(ans);
 				return overflow+(anssign+ans);
 				
 				
