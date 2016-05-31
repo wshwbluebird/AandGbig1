@@ -337,12 +337,6 @@ public class ALU {
 		
 		return null;
 	}
-	
-	@SuppressWarnings("unused")
-	private String  DoubleTostring(double d){
-		//待定的方法， 不知道无限小数精确到多少位
-		return null;
-	}
 	/**
 	 * 按位取反操作。<br/>
 	 * 例：negation("00001001")
@@ -736,7 +730,18 @@ public class ALU {
 	 * @return 长度为2+eLength+sLength的字符串表示的相加结果，其中第1位指示是否指数上溢（溢出为1，否则为0），其余位从左到右依次为符号、指数（移码表示）、尾数（首位隐藏）。舍入策略为向0舍入
 	 */
 	public String floatAddition (String operand1, String operand2, int eLength, int sLength, int gLength) {
-		// TODO YOUR CODE HERE.
+		//将两个操作数 扩展到最大位数 含保护位
+		//检验是否有零
+		//拆分指数 精度 注意非规格化
+		//比较指数 并移动为相等
+		    //先移动一次  
+		    //循环移动直到相等  
+		    //判断是否为0 
+		//运算带符号的sig加法
+		//检测加法是否有溢出
+		   //溢出 则向右移动指数加一  若指数为0 则直接＋1
+		   //判断指数是否溢出
+		//
 		return null;
 	}
 	
@@ -867,7 +872,7 @@ public class ALU {
 		if(flag)   str ="1"+ str;
 		return str;		
 	}
-	public  String twoexp(int n){
+	private  String twoexp(int n){
 		String ans="1.0";
 		if(n==0) return ans;
 		if(n<0){
