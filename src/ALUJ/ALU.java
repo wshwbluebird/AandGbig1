@@ -269,15 +269,16 @@ public class ALU {
 		    
 		}
 		double ans = 0; //
-		
+		String sans="0.0";
 		if(iexp ==0){//如果指数等于0
 			int exp = -offexp;
 			for (int i = 0; i < ssig.length(); i++) {
 				if(ssig.charAt(i)=='1'){
-				    ans = (double) (ans+Math.pow(2, exp-i));
+				    //ans = (double) (ans+Math.pow(2, exp-i));
+					sans = bigadd(sans, twoexp(exp-i));
 			    }
 			}
-			return minus+String.valueOf(ans);
+			return minus+sans;
 		}
 		iexp = iexp - offexp;// 如果指数不等于0
 		String sint;
@@ -288,15 +289,17 @@ public class ALU {
 			soat = ssig.substring(iexp);
 			for (int i = 0; i < sint.length(); i++) {
 				if(sint.charAt(i)=='1'){
-				    ans = (int) (ans+Math.pow(2, sint.length()-1-i));
+				    //ans = (int) (ans+Math.pow(2, sint.length()-1-i));
+					sans = bigadd(sans, twoexp(sint.length()-1-i));
 			    }
 			}
 			for (int i = 0; i < soat.length(); i++) {
 				if(soat.charAt(i)=='1'){
-				    ans = (double) (ans+Math.pow(2, -i-1));
+				    //ans = (double) (ans+Math.pow(2, -i-1));
+					sans = bigadd(sans, twoexp(-1-i));
 			    }
 			}
-			return minus+String.valueOf(ans);
+			return minus+sans;
 		}else if(iexp<0){
 			soat = "1"+ssig;
 			int com = -1-iexp;
@@ -316,15 +319,17 @@ public class ALU {
 			System.out.println("sint:  "+sint);
 			for (int i = 0; i < sint.length(); i++) {
 				if(sint.charAt(i)=='1'){
-				    ans = (int) (ans+Math.pow(2, sint.length()-1-i));
+				    //ans = (int) (ans+Math.pow(2, sint.length()-1-i));
+					sans = bigadd(sans, twoexp(sint.length()-1-i));
 			    }
 			}
 			int com = iexp -sLength;
 			while(com!=0){
-				ans = ans *2;
+				//ans = ans *2;
+				sans = times2(sans);
 				com--;
 			}
-			return minus+String.valueOf(ans);
+			return minus+sans;
 		}
 		
 		
@@ -843,11 +848,35 @@ public class ALU {
 		if(flag)   str = str+"5";
 		return str;		
 	}
-	private  String minus2exp(int n){
-		String ans="1.0";
-		for (int i = 0; i < n ; i++) {
-			ans = divide2(ans);
+	
+	private String times2(String str){
+		boolean flag = false; //检验进位是否余1
+		char[]  opr = str.toCharArray();
+		for (int i = opr.length-1; i >= 0; i--) {
+			if(opr[i]!='.'){
+				int numchar = opr[i]-'0';
+				numchar = numchar*2;
+				if(flag)  numchar++;				
+				opr[i] = (char) ((numchar%10)+'0');
+				if(numchar/10==0)  flag = false;
+				else flag = true;
+			}
 		}
+		str = String.valueOf(opr);
+		if(flag)   str ="1"+ str;
+		return str;		
+	}
+	public  String twoexp(int n){
+		String ans="1.0";
+		if(n==0) return ans;
+		if(n<0){
+		    for (int i = 0; i < -n ; i++) 
+			  ans = divide2(ans);
+		}else{
+		    for (int i = 0; i < n ; i++) 
+				ans = times2(ans);
+		}
+		
 		return ans;
 	}
 	private String bigadd(String op1, String op2){
