@@ -1,4 +1,7 @@
 package ALUJ;
+
+import org.omg.CORBA.AnySeqHolder;
+
 /**
  * 模拟ALU进行整数和浮点数的四则运算
  * @author [请将此处修改为“学号_姓名”]
@@ -459,7 +462,7 @@ public class ALU {
 	 * @return operand加1的结果，长度为operand的长度加1，其中第1位指示是否溢出（溢出为1，否则为0），其余位为相加结果
 	 */
 	public String oneAdder (String operand) {
-		char c = '1';
+		char c = '1';//判断是否溢出
 		char[] ans = operand.toCharArray(); 
 		for (int i = operand.length()-1;i>=0; i--) {
 			//System.out.println(c+" "+ans[i]);
@@ -533,9 +536,8 @@ public class ALU {
 	 * @return 长度为length+1的字符串表示的计算结果，其中第1位指示是否溢出（溢出为1，否则为0），后length位是相减结果
 	 */
 	public String integerSubtraction (String operand1, String operand2, int length) {
-		operand2 = negation(operand2);
 		//System.out.println(operand2);
-		return adder(operand1, operand2, '1', length);
+		return adder(operand1, negation(operand2), '1', length);
 	}
 	
 	/**
@@ -632,9 +634,52 @@ public class ALU {
 	 * @return 长度为length+2的字符串表示的计算结果，其中第1位指示是否溢出（溢出为1，否则为0），第2位为符号位，后length位是相加结果
 	 */
 	public String signedAddition (String operand1, String operand2, int length) {
-		// TODO YOUR CODE HERE.
+		// 设置变量
+		String ans;
+		char anssign;
+		char overflow;
+		char sign1 = operand1.charAt(0);
+		operand1 = operand1.substring(1);
+		char sign2 = operand2.charAt(0);
+		operand2 = operand2.substring(1);
+		while(operand1.length()!=length) operand1 = "0"+operand1;//减数
+		while(operand2.length()!=length) operand2 = "0"+operand2;//被减数
+		// 同号相加
+		if(sign1 == sign2){
+			ans = adder("0000"+operand1,"0000"+operand2, '0', length+4);	//保证是同号的相加 出现异号现象		
+			anssign = sign1;
+			overflow = Or(ans.substring(1, 5).toCharArray());
+			ans = ans.substring(5);
+			//System.out.println("dfs");
+			return overflow+(anssign+ans);
+			
+		}
+		// 异号相减
+		else {
+			ans = adder("0000"+operand1, negation("0000"+operand2), '1', length+4);
+			System.out.println(ans);
+			char over = And(ans.substring(1, 5).toCharArray());//判断是否溢出
+			ans = ans.substring(5);
+			overflow ='0';
+			if(over=='0'){
+				anssign = sign1;
+				return overflow+(anssign+ans);
+			}else{
+				
+				String temp = oneAdder(negation(ans));
+//				if(temp.charAt(0)=='1') anssign ='1';
+//				else    //算出来是正0 就是正0 算出来不是正0 则负0
+				anssign = sign2;
+				ans = temp.substring(1);
+				return overflow+(anssign+ans);
+				
+				
+			}
+			
+		}
 		
-		return null;
+
+		
 	}
 	
 	/**
