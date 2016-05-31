@@ -1,7 +1,5 @@
 package ALUJ;
 
-import org.omg.CORBA.AnySeqHolder;
-
 /**
  * 模拟ALU进行整数和浮点数的四则运算
  * @author [请将此处修改为“学号_姓名”]
@@ -240,26 +238,27 @@ public class ALU {
 	 * @return operand的真值。若为负数；则第一位为“-”；若为正数或 0，则无符号位。正负无穷分别表示为“+Inf”和“-Inf”， NaN表示为“NaN”
 	 */
 	public String floatTrueValue (String operand, int eLength, int sLength) {
-		int offexp = (int) (Math.pow(2, eLength-1)-1);
-		String first = operand.substring(0,1);
+		int offexp = (int) (Math.pow(2, eLength-1)-1);//偏移指数
+		String first = operand.substring(0,1);  //正负
 		String minus = "";
 		if("1".equals(first)) minus = "-";
-		String sexp = operand.substring(1,1+eLength);
+		String sexp = operand.substring(1,1+eLength);//指数的字符串
 		System.out.println("sexp:   "+sexp);
-		String ssig = operand.substring(1+eLength);
+		String ssig = operand.substring(1+eLength);//小数的字符串
 		System.out.println("ssig:   "+ssig);
 		
 		
-		int iexp = 0;
+		int iexp = 0; //指数的数值
 		for (int i = 0; i < sexp.length(); i++) {
 			if(sexp.charAt(i)=='1'){
-			   iexp = (int) (iexp+Math.pow(2, sexp.length()-1-i));
+			   iexp = (int) (iexp+Math.pow(2, sexp.length()-1-i));//计算 字符串表示的指数 整数值
 		    }
 		}
 		System.out.println("offest:  "+offexp);
 		System.out.println("iexp:   "+iexp);
 		
-		if(iexp==Math.pow(2, eLength)-1){
+		//if(iexp==Math.pow(2, eLength)-1){   //检查指数位是否全为1
+		if(And(sexp.toCharArray())=='1'){     //检查指数位是否全为1
 		    long temp =Integer.parseInt(ssig);
 		    if(temp==0){
 		      if("".equals(minus))	minus = "+";
@@ -269,7 +268,8 @@ public class ALU {
 		    }
 		    
 		}
-		double ans = 0;
+		double ans = 0; //
+		
 		if(iexp ==0){//如果指数等于0
 			int exp = -offexp;
 			for (int i = 0; i < ssig.length(); i++) {
@@ -826,5 +826,81 @@ public class ALU {
 		if(a==b)  return 0;
 		else return a=='1'? 1:-1;
 	}
+//*****************************************************************************************************************	
+	private String divide2(String str){
+		boolean flag = false; //检验进位是否余1
+		char[]  opr = str.toCharArray();
+		for (int i = 0; i < opr.length; i++) {
+			if(opr[i]!='.'){
+				int numchar = opr[i]-'0';
+				if(flag)  numchar = numchar +10;
+				opr[i] = (char) ((numchar/2)+'0');
+				if(numchar%2==0)  flag = false;
+				else flag = true;
+			}
+		}
+		str = String.valueOf(opr);
+		if(flag)   str = str+"5";
+		return str;		
+	}
+	private  String minus2exp(int n){
+		String ans="1.0";
+		for (int i = 0; i < n ; i++) {
+			ans = divide2(ans);
+		}
+		return ans;
+	}
+	private String bigadd(String op1, String op2){
+		op1 = op1.replace(".", ";");
+		op2 = op2.replace(".", ";");
+		String[] part1 = op1.split(";");
+		String[] part2 = op2.split(";");
+		op1 = op1.replace(";", ".");
+		op2 = op2.replace(";", ".");
+		int diff = part1[1].length() - part2[1].length();
+		while(diff!=0){
+			if(diff>0){
+				diff--;
+				op2=op2 +"0";
+			}else{
+				diff++;
+				op1 = op1+"0";
+			}
+		}
+		
+		diff = part1[0].length() - part2[0].length();
+		while(diff!=0){
+			if(diff>0){
+				diff--;
+				op2="0" + op2 ;
+			}else{
+				diff++;
+				op1 ="0"+ op1;
+			}
+		}
+		
+		char[] opchar1 = op1.toCharArray();
+		char[] opchar2 = op2.toCharArray();
+		char[] ans = new char[opchar1.length];
+		boolean flag = false;
+		
+		for (int i = opchar2.length-1; i >= 0 ; i--) {
+			if(opchar1[i]=='.') ans[i]='.';
+			else{
+			int temp = opchar1[i]-'0'+opchar2[i]-'0';
+			if(flag) temp++;
+			 ans[i] = (char) (temp%10+'0');
+			 flag=temp/10==1?true:false;
+			}			
+		}
+		String str = String.valueOf(ans);
+		if(flag) str = "1"+str;
+		while(str.charAt(str.length()-1)=='0'&&str.charAt(str.length()-2)!='.'){
+			str = str.substring(0,str.length()-1);
+		}
+		return str;
+	}
+	
+	
 	
 }

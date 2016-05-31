@@ -33,13 +33,16 @@ public class script {
     	//System.out.println(alu.integerAddition("0111", "0111", 4));
     	//System.out.println(alu.integerSubtraction("1111", "1000", 8));
     	//System.out.println(alu.integerDivision("00001001", "0000011", 8));
-    	System.out.println(alu.signedAddition("00011", "11011", 8));
+    	//System.out.println(alu.signedAddition("00011", "11011", 8));
 
     	//System.out.println(alu.adder("0111", "0111", '1', 4));
     	//System.out.println(alu.integerAddition("0111", "0111", 4));
     	//System.out.println(alu.integerSubtraction("1111", "1000", 8));
     	//System.out.println(alu.integerMultiplication("0111", "0101", 8));
-
+    	//System.out.println(Math.pow(2, -15));
+    	//System.out.println(alu.minus2exp(15));
+       System.out.println(alu.bigadd("31.25", "4.75"));
+        
     	
     	
     	
