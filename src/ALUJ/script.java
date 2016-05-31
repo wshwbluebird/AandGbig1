@@ -28,11 +28,18 @@ public class script {
     	//System.out.println(alu.fullAdder('0', '0', '0'));
     	//System.out.println(alu.claAdder("1111", "0001", '0'));
     	//System.out.println(alu.oneAdder("011"));
+
     	//System.out.println(alu.adder("1111", "0001", '0', 4));
     	//System.out.println(alu.integerAddition("0111", "0111", 4));
     	//System.out.println(alu.integerSubtraction("1111", "1000", 8));
     	//System.out.println(alu.integerDivision("00001001", "0000011", 8));
     	System.out.println(alu.signedAddition("00011", "11011", 8));
+
+    	//System.out.println(alu.adder("0111", "0111", '1', 4));
+    	//System.out.println(alu.integerAddition("0111", "0111", 4));
+    	//System.out.println(alu.integerSubtraction("1111", "1000", 8));
+    	//System.out.println(alu.integerMultiplication("0111", "0101", 8));
+
     	
     	
     	

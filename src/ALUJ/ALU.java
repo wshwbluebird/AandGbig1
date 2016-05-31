@@ -406,7 +406,7 @@ public class ALU {
 	public String ariRightShift (String operand, int n) {
 		if(operand.length()==1)
 			return operand;
-		System.out.println(operand);
+		//System.out.println(operand);
 		char[]  ans = operand.toCharArray();
 		for (int i = 0; i < n; i++) {
 			for (int j = ans.length-1; j >0; j--) {
@@ -549,8 +549,45 @@ public class ALU {
 	 * @return 长度为length+1的字符串表示的相乘结果，其中第1位指示是否溢出（溢出为1，否则为0），后length位是相乘结果
 	 */
 	public String integerMultiplication (String operand1, String operand2, int length) {
-		// TODO YOUR CODE HERE.
-		return null;
+		//分组
+		while(operand1.length()<length) operand1 = operand1.charAt(0) + operand1;
+		while(operand2.length()<length) operand2 = operand2.charAt(0) + operand2;
+		String opr = operand2 + '0';
+		while(opr.length()<2*length+1){
+			opr = "0"+opr;
+		}
+		//System.out.println("opr  "+opr);
+		//循环
+		for (int i = 0; i < operand2.length(); i++) {
+			 //判断
+			int yy = boothJudgeY(opr.charAt(2*length),opr.charAt(2*length-1));//yy带表y0-y1
+			 //加减
+			//System.out.println(yy);
+			if(yy==1){
+				String temp = adder(operand1, opr.substring(0,operand1.length()), '0', operand1.length())
+						.substring(1);
+				opr = temp + opr.substring(operand1.length());
+			}
+			else if(yy==-1){
+				String temp = adder(negation(operand1), opr.substring(0,operand1.length()), '1', operand1.length())
+						.substring(1);
+				
+				opr = temp + opr.substring(operand1.length());
+				//System.out.println("o1   "+operand1);
+				//System.out.println("temp: "+temp);
+			}
+			 //System.out.println("加减"+opr);
+			 opr = ariRightShift(opr, 1);
+			 //System.out.println(opr);
+		}
+		//善后
+		char[] pd = opr.substring(0,length).toCharArray();
+		char overflow;
+		if(And(pd)=='1'||Or(pd)=='0')
+			 overflow = '0';
+		else 
+			overflow = '1';
+		return overflow+opr.substring(length,2*length);
 	}
 	
 	/**
@@ -589,7 +626,7 @@ public class ALU {
 		for (int i = 0; i < length; i++) {
 			//左移
 			register = leftShift(register, 1);
-			System.out.println("移动后"+register);
+			//System.out.println("移动后"+register);
 		    //判断 被除数 除数，同减异加
 			if(register.charAt(0)==operand2.charAt(0)){
 				//System.out.println("-");
@@ -605,7 +642,7 @@ public class ALU {
             }
 		    //判断加后 余数 和被除数 同1 不同0
 			if(register.charAt(0)==operand2.charAt(0)) register = register.substring(0,length *2) +"1";
-			System.out.println("加完后"+register);
+			//System.out.println("加完后"+register);
 		}	   
 		//善后
 		String remainder = register.substring(0,length);
@@ -657,7 +694,7 @@ public class ALU {
 		// 异号相减
 		else {
 			ans = adder("0000"+operand1, negation("0000"+operand2), '1', length+4);
-			System.out.println(ans);
+			//System.out.println(ans);
 			char over = And(ans.substring(1, 5).toCharArray());//判断是否溢出
 			ans = ans.substring(5);
 			overflow ='0';
@@ -780,12 +817,14 @@ public class ALU {
 		carry[2] =  Or(g[2],And(p[2],g[1]),And(p[2],p[1],c));
 		carry[3] =  Or(g[3],And(p[3],g[2]),And(p[3],p[2],g[1]),And(p[3],p[2],p[1],c));
 		carry[4] =  Or(g[4],And(p[4],g[3]),And(p[4],p[3],g[2]),And(p[4],p[3],p[2],g[1]),And(p[4],p[3],p[2],p[1],c));
-		
-//		for (int i = 0; i < carry.length; i++) {
-//			System.out.println(carry[i]);
-//		}
+
 		return carry; //返回的carry 是从右往左数的
 	}
-	
+//*****************************************************************************************************************	
+	private int boothJudgeY(char a , char b){
+		//System.out.println(a+"   "+b);
+		if(a==b)  return 0;
+		else return a=='1'? 1:-1;
+	}
 	
 }
