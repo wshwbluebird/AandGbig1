@@ -554,13 +554,13 @@ public class ALU {
 		while(opr.length()<2*length+1){
 			opr = "0"+opr;
 		}
-		System.out.println("opr  "+opr);
+		//System.out.println("opr  "+opr);
 		//循环
 		for (int i = 0; i < operand2.length(); i++) {
 			 //判断
 			int yy = boothJudgeY(opr.charAt(2*length),opr.charAt(2*length-1));//yy带表y0-y1
 			 //加减
-			System.out.println(yy);
+			//System.out.println(yy);
 			if(yy==1){
 				String temp = adder(operand1, opr.substring(0,operand1.length()), '0', operand1.length())
 						.substring(1);
@@ -571,12 +571,12 @@ public class ALU {
 						.substring(1);
 				
 				opr = temp + opr.substring(operand1.length());
-				System.out.println("o1   "+operand1);
-				System.out.println("temp: "+temp);
+				//System.out.println("o1   "+operand1);
+				//System.out.println("temp: "+temp);
 			}
-			 System.out.println("加减"+opr);
+			 //System.out.println("加减"+opr);
 			 opr = ariRightShift(opr, 1);
-			 System.out.println(opr);
+			 //System.out.println(opr);
 		}
 		//善后
 		char[] pd = opr.substring(0,length).toCharArray();
