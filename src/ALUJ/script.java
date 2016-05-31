@@ -6,7 +6,7 @@ public class script {
     public static void main(String[] args) {
     	ALU alu = new ALU();
       //System.out.println(alu.floatRepresentation("0.00001", 5, 11));
-    	//System.out.println(alu.floatRepresentation("137.125",8,23));
+    	//System.out.println(alu.floatRepresentation("4.125675",8,23));
     	//System.out.println(alu.integerTrueValue("111110"));
 //    	String test="10101011";
 //    	if(test.equals(alu.integerRepresentation(alu.integerTrueValue(test), test.length()))){
@@ -14,7 +14,7 @@ public class script {
 //    		System.out.println(alu.integerTrueValue(test));
 //    		
 //    	}
-    	//System.out.println(alu.floatTrueValue("01000011000010010010000000000000", 8, 23));
+    	//System.out.println(alu.floatTrueValue("01000000100001000000010110000111", 8, 23));
     	
 //    	0 01101110 01001111100010110101100
 //    	0 01101110 01001111100010110101100

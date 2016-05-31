@@ -73,11 +73,11 @@ public class ALU {
 		 int nsig;
 		 int nexp;
 		 int maxexp = (int) Math.pow(2, eLength)-2;  //14
-		 System.out.println("max:  "+maxexp);
+		 //System.out.println("max:  "+maxexp);
 		 int offexp = (int) Math.pow(2, eLength-1)-1;   //7		
-		 System.out.println("off:  "+offexp);
+		 //System.out.println("off:  "+offexp);
 		 int minexp = -offexp +1;
-		 System.out.println("min:  "+minexp);
+		 //System.out.println("min:  "+minexp);
 		 
 		    if('-'==number.charAt(0)){
 		    	first = "1";
@@ -87,8 +87,8 @@ public class ALU {
 		   String[]  data= number.split(";");
 		   long nint = Integer.parseInt(data[0]);
 		   double nfloat = Double.parseDouble("0."+data[1]);
-		  System.out.println("int:   "+nint);
-		  System.out.println("float:    "+nfloat);
+		 // System.out.println("int:   "+nint);
+		 // System.out.println("float:    "+nfloat);
 		 // 开始判断
 //		  if(nint >= (int) Math.pow(2, maxexp-offexp+1)){    //此边界条件 问任彤韦   
 //			  System.out.println(first+"inf");
@@ -103,7 +103,7 @@ public class ALU {
 				   nint = nint/2;
 				   }
 			   sint = sint.substring(1);
-			   System.out.println(sint);
+			  // System.out.println(sint);
 			   nexp = sint.length()+offexp;
 			   if(nexp>maxexp){
 				   exp="1111";
@@ -123,11 +123,11 @@ public class ALU {
 			   String sfloat = "";
 			   if(sint.length()>=sLength){
 				   sig = sint.substring(0, sLength);
-				   return first+" "+exp+" "+sig;
+				   return first+""+exp+""+sig;
 				   
 			   }
 			   int stillneed = sLength - sint.length();
-			   System.out.println("stillneed:  "+stillneed);
+			   //System.out.println("stillneed:  "+stillneed);
 			   while(sfloat.length()<stillneed){
 				   nfloat = nfloat*2;
 				   if(nfloat>=1)  {
@@ -140,7 +140,7 @@ public class ALU {
 			   }
 			  
 			   sig = sint + sfloat;
-			   return first+" "+exp+" "+sig;
+			   return first+""+exp+""+sig;
 		   }
 		 else{//如果整数部分是0
 			  double small =  nfloat * 2;
@@ -167,7 +167,7 @@ public class ALU {
 						   }
 					   }
 						
-					return first+" "+exp+" "+sig;
+					return first+""+exp+""+sig;
 				 }
 				 nexp--;
 				 small = small*2;
@@ -188,7 +188,7 @@ public class ALU {
 				   exp = "0"+exp;
 			     
 			   
-			return first+" "+exp+" "+sig; 
+			return first+""+exp+""+sig; 
 			
 		 }
 		
@@ -243,9 +243,9 @@ public class ALU {
 		String minus = "";
 		if("1".equals(first)) minus = "-";
 		String sexp = operand.substring(1,1+eLength);//指数的字符串
-		System.out.println("sexp:   "+sexp);
+		//System.out.println("sexp:   "+sexp);
 		String ssig = operand.substring(1+eLength);//小数的字符串
-		System.out.println("ssig:   "+ssig);
+		//System.out.println("ssig:   "+ssig);
 		
 		
 		int iexp = 0; //指数的数值
@@ -254,8 +254,8 @@ public class ALU {
 			   iexp = (int) (iexp+Math.pow(2, sexp.length()-1-i));//计算 字符串表示的指数 整数值
 		    }
 		}
-		System.out.println("offest:  "+offexp);
-		System.out.println("iexp:   "+iexp);
+		//System.out.println("offest:  "+offexp);
+		//System.out.println("iexp:   "+iexp);
 		
 		//if(iexp==Math.pow(2, eLength)-1){   //检查指数位是否全为1
 		if(And(sexp.toCharArray())=='1'){     //检查指数位是否全为1
@@ -268,7 +268,7 @@ public class ALU {
 		    }
 		    
 		}
-		double ans = 0; //
+		//double ans = 0; //
 		String sans="0.0";
 		if(iexp ==0){//如果指数等于0
 			int exp = -offexp;
@@ -283,7 +283,7 @@ public class ALU {
 		iexp = iexp - offexp;// 如果指数不等于0
 		String sint;
 		String soat;		
-		System.out.println(iexp);
+		//System.out.println(iexp);
 		if(iexp>=0&&iexp<sLength){
 			sint = "1"+ssig.substring(0, iexp);
 			soat = ssig.substring(iexp);
@@ -307,16 +307,17 @@ public class ALU {
 				soat = "0" + soat;
 				com--;
 			}
-         System.out.println(soat);
+         //System.out.println(soat);
 			for (int i = 0; i < soat.length(); i++) {
 				if(soat.charAt(i)=='1'){
-				    ans = (double) (ans+Math.pow(2, -i-1));
+				    //ans = (double) (ans+Math.pow(2, -i-1));
+					sans = bigadd(sans, twoexp(-1-i));
 			    }
 			}
-			return minus+String.valueOf(ans);
+			return minus+sans;
 		}else if(iexp>=sLength){
 			sint = "1" + ssig;
-			System.out.println("sint:  "+sint);
+			//System.out.println("sint:  "+sint);
 			for (int i = 0; i < sint.length(); i++) {
 				if(sint.charAt(i)=='1'){
 				    //ans = (int) (ans+Math.pow(2, sint.length()-1-i));
