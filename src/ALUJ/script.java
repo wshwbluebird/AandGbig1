@@ -32,7 +32,7 @@ public class script {
     	//System.out.println(alu.integerAddition("0111", "0111", 4));
     	//System.out.println(alu.integerSubtraction("1111", "1000", 8));
     	//System.out.println(alu.integerDivision("00001001", "0000011", 8));
-    	//System.out.println(alu.signedAddition("10001", "11111", 8));
+    	System.out.println(alu.signedAddition("00011", "11011", 8));
     	
     	
     	
