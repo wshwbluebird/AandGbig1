@@ -730,19 +730,98 @@ public class ALU {
 	 * @return 长度为2+eLength+sLength的字符串表示的相加结果，其中第1位指示是否指数上溢（溢出为1，否则为0），其余位从左到右依次为符号、指数（移码表示）、尾数（首位隐藏）。舍入策略为向0舍入
 	 */
 	public String floatAddition (String operand1, String operand2, int eLength, int sLength, int gLength) {
+		//建立变量 每个变量要求写注释
+		char sign1 = operand1.charAt(0);
+		char sign2 = operand2.charAt(0);//储存两个浮点数的符号位
+		String sexp1 = operand1.substring(1,1+eLength);
+		String sexp2 = operand2.substring(1,1+eLength);//储存表示指数的字符串
+		String ssig1 = operand1.substring(1+eLength);
+		String ssig2 = operand2.substring(1+eLength);//存储小数位		
 		//将两个操作数 扩展到最大位数 含保护位
+		while(ssig1.length()<sLength+gLength) ssig1 = ssig1 + "0";
+		while(ssig2.length()<sLength+gLength) ssig2 = ssig2 + "0";//将位数补全
+		if(Or(sexp1.toCharArray())=='0')   {
+			ssig1= "0"+ssig1;  //检测指数位是否为0 若为0   sig第一位为0
+			sexp1 = oneAdder(sexp1).substring(1);
+		}
+		else   ssig1 = "1"+ssig1;  //否则位1
+		if(Or(sexp2.toCharArray())=='0')   {
+			ssig2 = "0"+ssig2;  //检测指数位是否为0 若为0   sig第一位为0
+			sexp2 = oneAdder(sexp2).substring(1);
+		}
+		else   ssig2 = "1"+ssig2; 				
 		//检验是否有零
+		if(Or(ssig1.toCharArray())=='0') return "0"+operand2.substring(0,1+eLength+sLength);
+		if(Or(ssig2.toCharArray())=='0') return "0"+operand1.substring(0,1+eLength+sLength);  //需要一种数据进行检验
 		//拆分指数 精度 注意非规格化
 		//比较指数 并移动为相等
-		    //先移动一次  
-		    //循环移动直到相等  
-		    //判断是否为0 
+	    //先移动一次  
+	    //循环移动直到相等  
+	    //判断是否为0 
+		long iexp1 = UnsignedBtoH(sexp1);
+		long iexp2 = UnsignedBtoH(sexp2);
+		System.out.println("iexp1: "+iexp1);
+		System.out.println("iexp2: "+iexp2);
+		while(iexp1>iexp2){
+			iexp2++;
+			sexp2=oneAdder(sexp2).substring(1);
+			ssig2 = logRightShift(ssig2, 1);
+			if(Or(ssig2.toCharArray())=='0')  return "0"+operand1.substring(0,1+eLength+sLength);
+		}
+		while(iexp1<iexp2){
+			iexp1++;
+			sexp1=oneAdder(sexp1).substring(1);
+			ssig1 = logRightShift(ssig1, 1);
+			if(Or(ssig1.toCharArray())=='0')  return "0"+operand2.substring(0,1+eLength+sLength);
+		}//将两个数的指数变为相同 并且在过程中随时判断是否有0的出现
+		System.out.println(sexp1);
+		System.out.println(sexp2);
+		System.out.println(ssig1);
+		System.out.println(ssig2);
+	   String ans = "";	        
+	   String ssigans = "";
+	   String sexpans = "";
+	   char signans;
 		//运算带符号的sig加法
+	   System.out.println("before addsign");
+	   System.out.println("ssig2.length: "+ssig2.length());
+	   String addedsig = signedAddition(sign1+ssig1, sign2+ssig2, sLength+gLength+1);
+	   System.out.println("Addsign: "+addedsig);
+		    //看看是否为0  设置为0
+	         if(addedsig.charAt(0)=='0'&&Or(addedsig.substring(2).toCharArray())=='0'){
+	        	 ans = "0"+sign1+addedsig.substring(2,addedsig.length()-gLength-1);
+	        	 while(ans.length()<2+eLength+sLength){
+	        		 ans = ans+"0";
+	        	 }
+	        	 return ans;
+	         }
+	       signans = addedsig.charAt(1);
+	       sexpans=sexp1;
+	       System.out.println("sexpan:  "+sexpans);
+	       ssigans = addedsig.substring(2);
 		//检测加法是否有溢出
-		   //溢出 则向右移动指数加一  若指数为0 则直接＋1
-		   //判断指数是否溢出
-		//
-		return null;
+	     if(addedsig.charAt(0)=='1'){
+	    	//溢出 则向右移动指数加一      	 
+	         ssigans =logRightShift(ssigans, 1);
+	         ssigans = "1"+ssigans.substring(1,ssigans.length());
+	         System.out.println("ssig+1:  "+ssigans);
+	    	 sexpans = oneAdder(sexpans).substring(1);
+	    	 System.out.println("sexpan+1:  "+sexpans);
+	    	//判断指数是否溢出
+	    	 if(And(sexpans.toCharArray())=='1'){
+	    		 return "INF";
+	    	 }
+	     }		  
+		//恢复规格化 判断低位溢出  注意指数为0的情＝情况   应该不会低位溢出 低位溢出报0
+	    while(Or(sexpans.toCharArray())!='0'){
+	       if(ssigans.charAt(0)=='1'){
+	    	ssigans = ssigans.substring(1,1+sLength);
+	    	return "0"+ signans + sexpans +  ssigans;
+	        }
+	       sexpans = minus1(sexpans);
+	       ssigans =leftShift(ssigans, 1);
+	    }
+		return "0"+ signans + sexpans +  ssigans.substring(1,1+sLength);
 	}
 	
 	/**
@@ -936,6 +1015,32 @@ public class ALU {
 		return str;
 	}
 	
-	
+//*****************************************************************************************************************	
+	private long UnsignedBtoH(String str){
+		long ans = 0;;
+		for (int i = str.length()-1; i >=0; i--) {
+			if(str.charAt(i)=='1'){
+				ans = (long) (ans + Math.pow(2, str.length()-1-i));
+			}
+		}
+		return ans;		
+	}
+	private String minus1(String str){
+		char[]  ans = new char[str.length()];
+		boolean flag =true;
+		for (int i = ans.length-1; i >=0; i--) {
+			if(flag){
+				if(str.charAt(i)=='1')  {
+					ans[i] = '0'; flag = false;
+				}else{
+					ans[i] = '1'; flag = true;
+				}
+			}else{
+				ans[i] = str.charAt(i);
+			}
+		}
+		return String.valueOf(ans);
+		
+	}
 	
 }

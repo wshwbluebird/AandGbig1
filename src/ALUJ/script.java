@@ -33,7 +33,7 @@ public class script {
     	//System.out.println(alu.integerAddition("0111", "0111", 4));
     	//System.out.println(alu.integerSubtraction("1111", "1000", 8));
     	//System.out.println(alu.integerDivision("00001001", "0000011", 8));
-    	//System.out.println(alu.signedAddition("00011", "11011", 8));
+    	//System.out.println(alu.signedAddition("11111", "10001", 4));
 
     	//System.out.println(alu.adder("0111", "0111", '1', 4));
     	//System.out.println(alu.integerAddition("0111", "0111", 4));
@@ -43,8 +43,24 @@ public class script {
     	//System.out.println(alu.minus2exp(15));
         //System.out.println(alu.bigadd("31.25", "4.75"));
         //System.out.println(alu.twoexp(-3));
-    	
-    	
+    	//System.out.println(alu.UnsignedBtoH("001111"));
+//    	System.out.println(alu.floatAddition("10111111000000000000000000000000", "00111110111000000000000000000000", 
+//    			8, 23, 0));
+//    	
+//    	System.out.println(alu.floatTrueValue("10111101100000000000000000000000", 8, 23));
+    	double a,b;
+    	a=2.0;
+    	b=3.0;
+    	String aa ,bb;
+    	aa=alu.floatRepresentation("0.875", 8, 23);
+    	System.out.println("aa:"+aa);
+    	bb=alu.floatRepresentation("3.125", 8, 23);
+    	System.out.println("bb:"+bb);
+    	String ans = alu.floatAddition(aa, bb, 8, 23, 0);
+    	String get = alu.floatTrueValue(ans.substring(1), 8, 23);
+    	System.out.println("get:   "+get);
+    	//System.out.println(alu.floatRepresentation("0.5", 8, 23));
+    	//System.out.println(alu.floatRepresentation("-0.4375", 8, 23));
     	
 	}
 }
