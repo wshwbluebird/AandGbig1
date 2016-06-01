@@ -600,6 +600,7 @@ public class ALU {
 	 */
 	public String integerDivision (String operand1, String operand2, int length) {
 		//分组 补位
+		String overflow = "0";
 		while(operand1.length()!=length) operand1 = operand1.charAt(0) + operand1;//除数
 		while(operand2.length()!=length) operand2 = operand2.charAt(0) + operand2;//被除数
 		String register = operand1;
@@ -634,7 +635,7 @@ public class ALU {
 						            negation(operand2), '1', length).substring(1);
 				register = temp + register.substring(length);
 			}else{
-				System.out.println("+");
+				//System.out.println("+");
 				String temp = adder(register.substring(0, length), 
                         operand2, '0', length).substring(1);
                 register = temp + register.substring(length);
@@ -658,7 +659,7 @@ public class ALU {
 		//System.out.println("quotient: "+quotient);
 		if(operand1.charAt(0)!=operand2.charAt(0))  quotient = oneAdder(quotient).substring(1);
 		
-		return quotient+remainder;
+		return overflow+quotient+remainder;// 如何溢出？
 	}
 	 
 	/**
@@ -915,7 +916,7 @@ public class ALU {
 		 }
 		 ssigans = temp.substring(1);
 		 if(And(sexpans.toCharArray())=='1') {
-			 return "INF";
+			 return "INF"; //溢出 其余不变 还是返回无穷大
 		 }
 		//规格化
 		 while(Or(sexpans.toCharArray())!='0'){
@@ -941,8 +942,101 @@ public class ALU {
 	 * @return 长度为2+eLength+sLength的字符串表示的相乘结果,其中第1位指示是否指数上溢（溢出为1，否则为0），其余位从左到右依次为符号、指数（移码表示）、尾数（首位隐藏）。舍入策略为向0舍入
 	 */
 	public String floatDivision (String operand1, String operand2, int eLength, int sLength) {
-		// TODO YOUR CODE HERE.
-		return null;
+		//判断符号
+		char signans = Xor(operand1.charAt(0),operand2.charAt(0));
+		//判断为0的情况
+		if(Or(operand2.substring(1).toCharArray())=='0') {
+			String inf ="1111";
+			while(inf.length()<eLength)  inf = inf+"1";
+			while(inf.length()<eLength+sLength) inf = inf+"0";
+			return "0"+signans+inf;
+		}
+		if(Or(operand1.substring(1).toCharArray())=='0')  {
+			String zero = "00000000";
+			while(zero.length()<eLength+sLength) zero = zero+"0";
+			return "0"+signans+zero;
+		}
+		//字符串分离
+		String sexp1 = operand1.substring(1,1+eLength);
+		String sexp2 = operand2.substring(1,1+eLength);//储存表示指数的字符串
+		String ssig1 = operand1.substring(1+eLength);
+		String ssig2 = operand2.substring(1+eLength);
+		//指数相减 再加回偏移量
+				int offexp = (int) (Math.pow(2, eLength-1)-1);
+				int iexp1 = (int) UnsignedBtoH(operand1.substring(1, 1+eLength));
+				int iexp2 = (int) UnsignedBtoH(operand2.substring(1, 1+eLength));
+				int maxexp = (int) (Math.pow(2, eLength)-1);
+		//增加隐去的第一位
+		if(Or(sexp1.toCharArray())=='0')   {
+			ssig1= "0"+ssig1;  //检测指数位是否为0 若为0   sig第一位为0
+			iexp1++;
+		}else   ssig1 = "1"+ssig1;  //否则位1
+		while(ssig1.charAt(0)!='1'){
+			iexp1--;
+			ssig1=leftShift(ssig1, 1);//一定存在这个1 不然之前就0了
+		}
+		if(Or(sexp2.toCharArray())=='0')   {
+			ssig2 = "0"+ssig2;  //检测指数位是否为0 若为0   sig第一位为0
+			sexp2 = oneAdder(sexp2).substring(1);
+		}else   ssig2 = "1"+ssig2;
+		while(ssig2.charAt(0)!='1'){
+			iexp2--;
+			ssig2=leftShift(ssig1, 1);//一定存在这个1 不然之前就0了
+		}
+		
+		
+		//越界判定
+		   //高位
+		if(iexp1-iexp2+offexp>maxexp){
+			return signans+"INF";//指数溢出 后面的怎么算
+		}
+		    //低位
+		    //
+        if(iexp1-iexp2+offexp<0){
+            	String str =  signans+"0000000";
+            	while(str.length()<2+eLength+sLength){
+            		str = str+"0";
+            	}
+            }
+		//整数除法
+//        int oril = ssig1.length();
+//        int  comp = 1;
+//        ssig1 = "0"+ssig1;
+//        ssig2 = "0"+ssig2;
+//        while(ssig1.length()%4!=0){
+//        	 ssig1 = "0"+ssig1;
+//             ssig2 = "0"+ssig2;
+//             comp++;
+//        }
+        String temp = integerDivision(ssig1, ssig2, ssig1.length());
+        String ssigans= temp.substring(temp.length()-ssig1.length()-1,temp.length());  
+        //小数处理
+        int iexpans = iexp1-iexp2+offexp;
+        if(ssigans.charAt(0)=='0')  ssigans = ssigans.substring(1);
+        else{
+        	ssigans = ssigans.substring(1);
+        	//iexpans--;
+        }
+		//善后
+        
+        String sexpans="";
+        while(iexpans!=0){
+			if(iexpans%2==1)  sexpans = "1" + sexpans;
+			else sexpans = "0" + sexpans;
+			iexpans = iexpans/2;
+		}
+		while(sexpans.length()<eLength){
+			sexpans = "0"+ sexpans;
+		}
+        while(Or(sexpans.toCharArray())!='0'){
+		       if(ssigans.charAt(0)=='1'){
+		    	ssigans = ssigans.substring(1,1+sLength);
+		    	return "0"+ signans + sexpans +  ssigans;
+		        }
+		       sexpans = minus1(sexpans);
+		       ssigans =leftShift(ssigans, 1);
+		    }
+	return "0"+ signans + sexpans +  ssigans.substring(1,1+sLength);
 	}
 //*****************************************************************************************************************	
 	

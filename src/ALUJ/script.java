@@ -51,18 +51,21 @@ public class script {
 //    	double a,b;
 //    	a=2.0;
 //    	b=3.0;
-//    	String aa ,bb;
-//    	aa=alu.floatRepresentation("4.555", 8, 23);
-//    	System.out.println("aa:"+aa);
-//    	bb=alu.floatRepresentation("3.62566", 8, 23);
-//    	System.out.println("bb:"+bb);
-//    	String ans = alu.floatMultiplication(aa, bb, 8, 23);
-//    	String get = alu.floatTrueValue(ans.substring(1), 8, 23);
-//    	System.out.println("get:   "+get);
-//    	System.out.println("REAL: "+(4.555*3.62566));
+    	String aa ,bb;
+    	aa=alu.floatRepresentation("0.5", 8, 23);
+    	System.out.println("aa:"+aa);
+    	bb=alu.floatRepresentation("0.4375", 8, 23);
+    	System.out.println("bb:"+bb);
+    	String ans = alu.floatDivision(aa, bb, 8, 23);
+    	System.out.println("ans: "+ans);
+    	String get = alu.floatTrueValue(ans.substring(1), 8, 23);
+    	System.out.println("get:   "+get);
+    	System.out.println("REAL: "+((double)0.5/0.4375));
     	//System.out.println(alu.floatRepresentation("0.5", 8, 23));
     	//System.out.println(alu.floatRepresentation("-0.4375", 8, 23));
         //System.out.println(alu.unsignedBooth("1111", "1111", 4));
-    	
+     	System.out.println(alu.integerDivision("010000000", "011100000", 12));
+    	//00000000011100000
+
 	}
 }
