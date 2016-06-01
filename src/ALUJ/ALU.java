@@ -849,8 +849,74 @@ public class ALU {
 	 * @return 长度为2+eLength+sLength的字符串表示的相乘结果,其中第1位指示是否指数上溢（溢出为1，否则为0），其余位从左到右依次为符号、指数（移码表示）、尾数（首位隐藏）。舍入策略为向0舍入
 	 */
 	public String floatMultiplication (String operand1, String operand2, int eLength, int sLength) {
-		// TODO YOUR CODE HERE.
-		return null;
+		//检查是否有0
+		if(Or(operand1.substring(1).toCharArray())=='0')  return operand1;
+		if(Or(operand2.substring(1).toCharArray())=='0')  return operand2;
+		//判断符号
+		char signans = Xor(operand1.charAt(0),operand2.charAt(0));
+	
+		//分段处理
+		String sexp1 = operand1.substring(1,1+eLength);
+		String sexp2 = operand2.substring(1,1+eLength);//储存表示指数的字符串
+		String ssig1 = operand1.substring(1+eLength);
+		String ssig2 = operand2.substring(1+eLength);
+		//增加隐去的第一位
+		if(Or(sexp1.toCharArray())=='0')   {
+			ssig1= "0"+ssig1;  //检测指数位是否为0 若为0   sig第一位为0
+			sexp1 = oneAdder(sexp1).substring(1);
+		}
+		else   ssig1 = "1"+ssig1;  //否则位1
+		if(Or(sexp2.toCharArray())=='0')   {
+			ssig2 = "0"+ssig2;  //检测指数位是否为0 若为0   sig第一位为0
+			sexp2 = oneAdder(sexp2).substring(1);
+		}
+		else   ssig2 = "1"+ssig2;
+		//减去指数偏移量
+		int offexp = (int) (Math.pow(2, eLength-1)-1);
+		int iexp1 = (int) UnsignedBtoH(operand1.substring(1, 1+eLength));
+		int iexp2 = (int) UnsignedBtoH(operand2.substring(1, 1+eLength));
+		int maxexp = (int) (Math.pow(2, eLength)-1);
+		
+		//越界判定
+		   //高位
+		if(iexp1+iexp2-offexp>maxexp){
+			return signans+"INF";
+		}
+		    //低位
+		    //TODO	
+		//小数位数相乘
+		String sexpans="";
+		String ssigans;
+		int iexpans = iexp1+iexp2-offexp;
+		while(iexpans!=0){
+			if(iexpans%2==1)  sexpans = "1" + sexpans;
+			else sexpans = "0" + sexpans;
+			iexpans = iexpans/2;
+		}
+		while(sexpans.length()<eLength){
+			sexpans = "0"+ sexpans;
+		}
+		String temp = unsignedBooth(ssig1, ssig2, ssig1.length());
+		 if(temp.charAt(0)=='1')  {
+			 temp = logRightShift(temp, 1);
+			 sexpans = oneAdder(sexpans).substring(1);			 
+		 }
+		 ssigans = temp.substring(1);
+		 if(And(sexpans.toCharArray())=='1') {
+			 return "INF";
+		 }
+		//规格化
+		 while(Or(sexpans.toCharArray())!='0'){
+		       if(ssigans.charAt(0)=='1'){
+		    	ssigans = ssigans.substring(1,1+sLength);
+		    	return "0"+ signans + sexpans +  ssigans;
+		        }
+		       sexpans = minus1(sexpans);
+		       ssigans =leftShift(ssigans, 1);
+		    }
+	return "0"+ signans + sexpans +  ssigans.substring(1,1+sLength);
+		
+		
 	}
 	
 	/**
@@ -1042,5 +1108,37 @@ public class ALU {
 		return String.valueOf(ans);
 		
 	}
-	
+//*****************************************************************************************************************	
+	private String unsignedBooth(String operand1 ,String operand2,int length){
+		length = length *2;
+		while(operand1.length()<length) operand1 = "0" + operand1;
+		while(operand2.length()<length) operand2 = "0" + operand2;
+		String opr = operand2 + '0';
+		while(opr.length()<2*length+1){
+			opr = "0"+opr;
+		}
+		//System.out.println("opr  "+opr);
+		//循环
+		for (int i = 0; i < operand2.length(); i++) {
+			 //判断
+			int yy = boothJudgeY(opr.charAt(2*length),opr.charAt(2*length-1));//yy带表y0-y1
+			 //加减
+			if(yy==1){
+				String temp = adder(operand1, opr.substring(0,operand1.length()), '0', operand1.length())
+						.substring(1);
+				opr = temp + opr.substring(operand1.length());
+			}
+			else if(yy==-1){
+				String temp = adder(negation(operand1), opr.substring(0,operand1.length()), '1', operand1.length())
+						.substring(1);				
+				opr = temp + opr.substring(operand1.length());
+			}
+			 //System.out.println("加减"+opr);
+			 opr = ariRightShift(opr, 1);
+			 //System.out.println(opr);
+		}
+		//善后		
+		return opr.substring(length,2*length+1);
+		
+	}
 }

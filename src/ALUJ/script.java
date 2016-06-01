@@ -48,19 +48,20 @@ public class script {
 //    			8, 23, 0));
 //    	
 //    	System.out.println(alu.floatTrueValue("10111101100000000000000000000000", 8, 23));
-    	double a,b;
-    	a=2.0;
-    	b=3.0;
-    	String aa ,bb;
-    	aa=alu.floatRepresentation("0.875", 8, 23);
-    	System.out.println("aa:"+aa);
-    	bb=alu.floatRepresentation("3.125", 8, 23);
-    	System.out.println("bb:"+bb);
-    	String ans = alu.floatAddition(aa, bb, 8, 23, 0);
-    	String get = alu.floatTrueValue(ans.substring(1), 8, 23);
-    	System.out.println("get:   "+get);
+//    	double a,b;
+//    	a=2.0;
+//    	b=3.0;
+//    	String aa ,bb;
+//    	aa=alu.floatRepresentation("0.875", 8, 23);
+//    	System.out.println("aa:"+aa);
+//    	bb=alu.floatRepresentation("3.125", 8, 23);
+//    	System.out.println("bb:"+bb);
+//    	String ans = alu.floatAddition(aa, bb, 8, 23, 0);
+//    	String get = alu.floatTrueValue(ans.substring(1), 8, 23);
+//    	System.out.println("get:   "+get);
     	//System.out.println(alu.floatRepresentation("0.5", 8, 23));
     	//System.out.println(alu.floatRepresentation("-0.4375", 8, 23));
+        //System.out.println(alu.unsignedBooth("1111", "1111", 4));
     	
 	}
 }
