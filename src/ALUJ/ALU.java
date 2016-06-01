@@ -225,7 +225,7 @@ public class ALU {
 			   else ans = (int) (ans+Math.pow(2, operand.length()-1-i));
 		    }
 		}
-		
+		 
 		return String.valueOf(ans);
 	}
 	
