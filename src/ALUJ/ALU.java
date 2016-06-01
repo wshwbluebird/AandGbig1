@@ -836,7 +836,7 @@ public class ALU {
 	 */
 	public String floatSubtraction (String operand1, String operand2, int eLength, int sLength, int gLength) {
 		operand2 = Not(operand2.charAt(0))+operand2.substring(1);
-		return floatAddition(operand1, operand2, eLength, sLength, gLength);
+		return floatAddition(operand1, operand2, eLength, sLength, gLength); 
 	}
 	
 	/**
