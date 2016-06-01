@@ -52,13 +52,14 @@ public class script {
 //    	a=2.0;
 //    	b=3.0;
 //    	String aa ,bb;
-//    	aa=alu.floatRepresentation("0.875", 8, 23);
+//    	aa=alu.floatRepresentation("4.555", 8, 23);
 //    	System.out.println("aa:"+aa);
-//    	bb=alu.floatRepresentation("3.125", 8, 23);
+//    	bb=alu.floatRepresentation("3.62566", 8, 23);
 //    	System.out.println("bb:"+bb);
-//    	String ans = alu.floatAddition(aa, bb, 8, 23, 0);
+//    	String ans = alu.floatMultiplication(aa, bb, 8, 23);
 //    	String get = alu.floatTrueValue(ans.substring(1), 8, 23);
 //    	System.out.println("get:   "+get);
+//    	System.out.println("REAL: "+(4.555*3.62566));
     	//System.out.println(alu.floatRepresentation("0.5", 8, 23));
     	//System.out.println(alu.floatRepresentation("-0.4375", 8, 23));
         //System.out.println(alu.unsignedBooth("1111", "1111", 4));

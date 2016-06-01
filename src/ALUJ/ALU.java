@@ -809,7 +809,13 @@ public class ALU {
 	    	 System.out.println("sexpan+1:  "+sexpans);
 	    	//判断指数是否溢出
 	    	 if(And(sexpans.toCharArray())=='1'){
-	    		 return "INF";
+//	    		 String maxexp="1111";
+//	    		 while(maxexp.length()<eLength){
+//	    			 maxexp = maxexp+"1";
+//	    		 }
+//	    		 String ansinf = signans + maxexp;
+//	    		 while(ansinf.length()<)
+	    		 return "1"+signans+sexpans+ssigans.substring(0,sLength);
 	    	 }
 	     }		  
 		//恢复规格化 判断低位溢出  注意指数为0的情＝情况   应该不会低位溢出 低位溢出报0
@@ -883,7 +889,13 @@ public class ALU {
 			return signans+"INF";
 		}
 		    //低位
-		    //TODO	
+		    //
+            if(iexp1+iexp2-offexp<0)	{
+            	String str =  signans+"0000000";
+            	while(str.length()<2+eLength+sLength){
+            		str = str+"0";
+            	}
+            }
 		//小数位数相乘
 		String sexpans="";
 		String ssigans;
