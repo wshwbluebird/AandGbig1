@@ -48,24 +48,27 @@ public class script {
 //    			8, 23, 0));
 //    	
 //    	System.out.println(alu.floatTrueValue("10111101100000000000000000000000", 8, 23));
-//    	double a,b;
-//    	a=2.0;
-//    	b=3.0;
+    	double a,b;
+    	a=2.0;
+    	b=3.0;
     	String aa ,bb;
-    	aa=alu.floatRepresentation("0.5", 8, 23);
+    	aa=alu.floatRepresentation("1.5", 8, 23);
     	System.out.println("aa:"+aa);
-    	bb=alu.floatRepresentation("0.4375", 8, 23);
+    	bb=alu.floatRepresentation("0.33333", 8, 23);
+    	//System.out.println(alu.floatTrueValue("00111111101110000000000000000000", 8, 23));
     	System.out.println("bb:"+bb);
     	String ans = alu.floatDivision(aa, bb, 8, 23);
     	System.out.println("ans: "+ans);
     	String get = alu.floatTrueValue(ans.substring(1), 8, 23);
     	System.out.println("get:   "+get);
-    	System.out.println("REAL: "+((double)0.5/0.4375));
+    	System.out.println("REAL: "+((double)1.5/0.33333));
     	//System.out.println(alu.floatRepresentation("0.5", 8, 23));
     	//System.out.println(alu.floatRepresentation("-0.4375", 8, 23));
         //System.out.println(alu.unsignedBooth("1111", "1111", 4));
-     	System.out.println(alu.integerDivision("010000000", "011100000", 12));
+     	//System.out.println(alu.integerDivision("01000000000000000", "00000000011100000", 20));
     	//00000000011100000
-
+       //System.out.println(alu.sigDivision("11100000", "10000000", 8));
+    	//System.out.println(alu.sigDivision("10000000", "11100000", 8));
+    	//System.out.println(alu.sigDivision("11100000", "10000000", 8));
 	}
 }

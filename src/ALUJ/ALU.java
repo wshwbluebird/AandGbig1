@@ -999,24 +999,15 @@ public class ALU {
             	}
             }
 		//整数除法
-//        int oril = ssig1.length();
-//        int  comp = 1;
-//        ssig1 = "0"+ssig1;
-//        ssig2 = "0"+ssig2;
-//        while(ssig1.length()%4!=0){
-//        	 ssig1 = "0"+ssig1;
-//             ssig2 = "0"+ssig2;
-//             comp++;
-//        }
-        String temp = integerDivision(ssig1, ssig2, ssig1.length());
-        String ssigans= temp.substring(temp.length()-ssig1.length()-1,temp.length());  
+        String ssigans = sigDivision(ssig1, ssig2, ssig1.length());
         //小数处理
         int iexpans = iexp1-iexp2+offexp;
-        if(ssigans.charAt(0)=='0')  ssigans = ssigans.substring(1);
-        else{
+        System.out.println("iexp:"+ (iexp1-iexp2));
+        if(ssigans.charAt(0)=='0')  {
         	ssigans = ssigans.substring(1);
-        	//iexpans--;
+        	iexpans--;
         }
+        
 		//善后
         
         String sexpans="";
@@ -1247,4 +1238,56 @@ public class ALU {
 		return opr.substring(length,2*length+1);
 		
 	}
+
+//*****************************************************************************************************************	
+      public String sigDivision (String operand1, String operand2, int length) {
+		//分组 补位
+		while(operand1.length()!=length) operand1 = operand1.charAt(0) + operand1;//除数
+		while(operand2.length()!=length) operand2 = operand2.charAt(0) + operand2;//被除数
+		String register = operand1;
+//		while(register.length()!=2*length) register = register.charAt(0) + register;
+		while(register.length()!=2*length) register = register + "0";
+		//System.out.println("最开始"+register);
+		//System.out.println("divisor:  "+operand2);
+		String quotient = "";
+		boolean flag = false;
+		String temp;
+		for (int i = 0; i <= length; i++) {
+			if(flag){
+				temp = minusDiv(register.substring(i-1, i+length), operand2,length);
+			}else{
+				temp = minusDiv(register.substring(i, i+length), operand2,length);
+			}
+			//System.out.println("temp: "+temp);
+			quotient = quotient + temp.charAt(0);
+           if(temp.charAt(0)=='0')  flag=true;
+           else flag =  false;
+			String pre = "";
+			String aft = register.substring(i+length);
+			if(i!=0)  pre = register.substring(0,i);
+			//System.out.println("reg:"+register);
+			register = pre+temp.substring(1)+aft;
+			//System.out.println("reg:"+register);
+			
+		}
+		//第一次加	
+		return quotient;
+      }
+      private  String minusDiv(String a,String b,int length){
+    	  if(a.length()==length) a="0000"+a;
+    	  else a="000"+a;
+    	   b="0000"+b;
+    	   //System.out.println("a:"+a);
+    	   //System.out.println("b:"+b);
+    	   String temp = adder(a, negation(b), '1', length+4);
+    	   temp = temp.substring(1);
+    	   //System.out.println("adder: "+temp.substring(beginIndex));
+    	   if(Or(temp.substring(0, 4).toCharArray())=='1'){
+    		   return '0' +a.substring(4);
+    	   }else{
+    		   return '1'+temp.substring(4);
+    	   }
+    	   
+      }
+      
 }
