@@ -1240,7 +1240,7 @@ public class ALU {
 	}
 
 //*****************************************************************************************************************	
-      public String sigDivision (String operand1, String operand2, int length) {
+      private  String sigDivision (String operand1, String operand2, int length) {
 		//分组 补位
 		while(operand1.length()!=length) operand1 = operand1.charAt(0) + operand1;//除数
 		while(operand2.length()!=length) operand2 = operand2.charAt(0) + operand2;//被除数
